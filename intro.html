@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MusicFest25 — Enter</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/audioManager.js" defer></script>
+  <script src="js/intro.js" defer></script>
+  <script src="js/player-ui.js" defer></script>
+</head>
+<body>
+  <!-- Themeida player (only visible thing until user starts music) -->
+  <div id="themeidaPlayer" class="themeida-player" role="button" tabindex="0" aria-label="Start music">
+    <div class="themeida-inner">
+      <img src="images/themeida.png" alt="Themeida" onerror="this.style.display='none'" />
+      <div class="themeida-title">MusicFest25</div>
+      <div class="themeida-sub">Tap to start music</div>
+    </div>
+  </div>
+
+  <!-- Hidden controls and entry button; revealed after music starts -->
+  <div class="intro-player-modal" id="introPlayerModal" aria-hidden="true">
+    <div class="modal-controls">
+      <button class="ctrl" id="introModalPrev">⏮</button>
+      <button class="ctrl big-play" id="introModalPlay">▶</button>
+      <button class="ctrl" id="introModalNext">⏭</button>
+      <button class="ctrl" id="introModalMute">🔊</button>
+    </div>
+    <div class="meta">
+      <div class="title">MusicFest25</div>
+      <div class="sub">Use the controls to skip or mute</div>
+      <div id="introModalTrack" class="sub" style="margin-top:8px;opacity:0.9;font-weight:600"></div>
+    </div>
+  </div>
+
+  <div class="intro-content" id="introContent">
+    <button class="play-btn hidden" id="introEnterBtn">▶</button>
+  </div>
+
+  <div class="spotlight-overlay"></div>
+
+</body>
+<script>
+  (function(){
+    const theme = document.getElementById('themeidaPlayer');
+    const modal = document.getElementById('introPlayerModal');
+    const enterBtn = document.getElementById('introEnterBtn');
+    const body = document.body;
+
+    function revealControls() {
+      // hide the big themeida player
+      theme.style.display = 'none';
+      // show modal and enter button
+      modal.classList.add('visible');
+      modal.setAttribute('aria-hidden','false');
+      enterBtn.classList.remove('hidden');
+      // allow page to scroll/behave normally
+      document.documentElement.style.overflow = '';
+    }
+
+    async function startMusic() {
+      try {
+        if (!window.AudioManager) return;
+        AudioManager.init();
+        // play muffled on intro
+        try { AudioManager.muffle(); } catch(e){}
+        await AudioManager.play();
+        revealControls();
+      } catch (e) { console.warn('Start music failed', e); }
+    }
+
+    // Allow click or Enter/Space to start
+    theme.addEventListener('click', startMusic);
+    theme.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); startMusic(); } });
+
+    // Enter button navigates to the home page and unmuffles audio
+    enterBtn.addEventListener('click', (e) => {
+      try { if (window.AudioManager) AudioManager.unmute(); } catch(e){}
+      window.location.href = 'index.html';
+    });
+
+    // Prevent scrolling while intro is active
+    document.documentElement.style.overflow = 'hidden';
+  })();
+</script>
+</html>

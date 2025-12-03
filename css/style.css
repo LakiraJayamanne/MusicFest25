@@ -1,0 +1,183 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0a0012; /* dark background for fog context */
+  color: white;
+  font-family: sans-serif;
+}
+
+.spotlight-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(0, 0, 0, 0) 100px,
+    rgba(0, 0, 0, 0.9) 250px
+  );
+  transition: background 0.05s ease;
+  z-index: 100;
+}
+
+
+.play-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  font-size: 2.5rem;
+  color: white;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.play-btn:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.intro-content {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+}
+
+
+
+
+
+.pill-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #000000;
+    border: 2px solid #999;
+    border-radius: 100px;
+    padding: 0.5rem 1rem;
+    margin: 1rem auto;
+    width: fit-content;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+
+.pill-nav__logo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 90%;
+  background: rgb(0, 0, 0);
+  padding: 1px;
+}
+
+.pill-nav__links {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.pill-nav__link {
+  text-decoration: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
+  background-color: #fff;
+  color: #111;
+  font-weight: bold;
+  font-family: sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+  border: 2px solid transparent;
+}
+
+.pill-nav__link:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #fff;
+    border-color: #ffffff;
+}
+
+.pill-nav__link.active {
+    background-color: #303030;
+    color: white;
+    border-color: #ffffff;
+}
+
+/* Additional styles for main content */
+
+/* Music player bar */
+.player-bar {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:8px 12px;
+  background: rgba(0,0,0,0.6);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  color: #fff;
+  backdrop-filter: blur(6px);
+}
+.player-left { display:flex; align-items:center; gap:8px }
+.player-bar button { background:transparent; border:1px solid rgba(255,255,255,0.08); color:#fff; padding:6px 8px; border-radius:6px; cursor:pointer }
+.player-bar #player-track { font-weight:600; max-width:320px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.player-bar #player-status { font-size:0.9rem; opacity:0.85 }
+
+/* Ensure player below nav when present */
+.player-under-nav { margin-top: 0.5rem }
+
+/* Intro player modal */
+.intro-player-modal {
+  position: fixed;
+  left: 50%;
+  top: 30%;
+  transform: translateX(-50%) translateY(-10px);
+  background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 18px 22px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 200;
+  backdrop-filter: blur(8px) saturate(120%);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  opacity: 0;
+  transition: opacity 360ms ease, transform 360ms ease;
+
+}
+.intro-player-modal.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+.intro-player-modal .modal-controls { display:flex; gap:8px; align-items:center; margin-bottom:8px }
+.intro-player-modal .modal-controls .ctrl { background:rgba(255,255,255,0.08); border:0; padding:10px 12px; border-radius:8px; cursor:pointer; font-size:1rem }
+.intro-player-modal .modal-controls .big-play { font-size:1.4rem; padding:12px 16px }
+.intro-player-modal .meta { display:flex; flex-direction:column }
+.intro-player-modal .meta .title { font-weight:700 }
+.intro-player-modal .meta .sub { font-size:0.85rem; opacity:0.9 }
+
+/* Hide the large circular intro play button until modal visible */
+.play-btn { display: inline-block; }
+.play-btn.hidden { display: none; }
+
+/* Themeida player - fullscreen centered starter */
+.themeida-player {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 250;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.02), rgba(0,0,0,0.9));
+}
+.themeida-player .themeida-inner {
+  text-align: center;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+.themeida-player img { width: 140px; height: 140px; border-radius: 18px; display:block; margin: 0 auto 12px }
+.themeida-title { font-weight:700; font-size:1.4rem }
+.themeida-sub { font-size:0.9rem; opacity:0.9 }

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MusicFest25 — Shell</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    html,body { height:100%; margin:0 }
+    #contentFrame { width:100%; height:100%; border:0; display:block }
+  </style>
+</head>
+<body>
+  <!-- Hidden persistent audio player iframe -->
+  <iframe id="playerFrame" src="player.html" style="display:none;" aria-hidden="true"></iframe>
+
+  <!-- Visible content iframe that loads site pages while keeping the player alive -->
+  <iframe id="contentFrame" name="contentFrame" src="index.html"></iframe>
+
+  <script>
+    // If shell was opened with a target in the hash or query, load that page into the content frame.
+    (function() {
+      function paramSource() {
+        // check hash first
+        if (location.hash && location.hash.length > 1) {
+          return location.hash.substring(1);
+        }
+        // check ?src=...
+        const params = new URLSearchParams(location.search);
+        if (params.get('src')) return params.get('src');
+        return null;
+      }
+
+      const requested = paramSource();
+      const content = document.getElementById('contentFrame');
+      if (requested) {
+        content.src = requested;
+      }
+
+      // Optional: open content links in the content frame when clicked in the top-level shell
+      // (not necessary if pages are loaded inside the iframe)
+      document.addEventListener('click', e => {
+        const a = e.target.closest && e.target.closest('a');
+        if (!a) return;
+        const href = a.getAttribute('href');
+        if (!href) return;
+
+        // If it's an internal link (no target or target is _self), load in content frame
+        // Only intercept same-origin simple links (no external protocols)
+        if (a.target === '' || a.target === '_self') {
+          const isExternal = href.startsWith('http:') || href.startsWith('https:') || href.startsWith('mailto:');
+          if (!isExternal && !href.startsWith('#')) {
+            e.preventDefault();
+            content.src = href;
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

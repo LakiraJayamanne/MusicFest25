@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MusicFest25 - Tickets</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/audioManager.js" defer></script>
+  <script src="js/script.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="pill-nav" role="navigation" aria-label="Primary">
+        <div class="pill-nav__links">
+        <a class="pill-nav__link" href="index.html">Home</a>
+        <a class="pill-nav__link" href="lineup.html">Lineup</a>
+        <a class="pill-nav__link" href="schedule.html">Schedule</a>
+        <a class="pill-nav__link active" href="tickets.html">Tickets</a>
+        </div>
+    </div>
+  </header>
+  
+  
+
+  <script src="js/player-ui.js" defer></script>
+
+  <main>
+    <h1>Book Your Tickets</h1>
+    <form id="ticketForm">
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" required />
+
+      <label for="email">Email Address:</label>
+      <input type="email" id="email" required />
+
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" required />
+
+      <label for="tickets">Number of Tickets:</label>
+      <input type="number" id="tickets" min="1" max="10" required />
+
+      <label for="type">Ticket Type:</label>
+      <select id="type">
+        <option>General Admission</option>
+        <option>VIP</option>
+        <option>Premium</option>
+      </select>
+
+      <label for="payment">Payment Method:</label>
+      <select id="payment">
+        <option>Credit Card</option>
+        <option>Debit Card</option>
+        <option>PayPal</option>
+      </select>
+
+      <label for="requirements">Special Requirements:</label>
+      <textarea id="requirements"></textarea>
+
+      <label>
+        <input type="checkbox" id="terms" required />
+        I agree to the terms and conditions
+      </label>
+
+      <button type="submit">Submit</button>
+      <button type="reset">Reset</button>
+    </form>
+  </main>
+
+  <footer>
+    <p>© 2025 MusicFest25</p>
+  </footer>
+</body>
+</html>
