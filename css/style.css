@@ -9,9 +9,7 @@ body, html {
   font-family: sans-serif;
 }
 
-:root {
-  --visualizer-color: #4bd08e; /* accent colour; change to match site */
-}
+
 
 .spotlight-overlay {
   position: fixed;
@@ -63,8 +61,8 @@ body, html {
     justify-content: center;
     align-items: center;
     gap: 0.5rem;
-    background-color: #000000;
-    border: 2px solid #999;
+    background-color: #1a0129;
+    border: 2px solid #ffffff;
     border-radius: 100px;
     padding: 0.5rem 1rem;
     margin: 1rem auto;
@@ -93,15 +91,17 @@ body, html {
   padding: 0.5rem 1.2rem;
   border-radius: 999px;
   background-color: #fff;
-  color: #111;
+  color: #14141448;
   font-weight: bold;
   font-family: sans-serif;
   transition: background-color 0.3s, color 0.3s;
   border: 2px solid transparent;
+  display: inline-flex;
+  align-items: center;
 }
 
 .pill-nav__link:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(24, 24, 24, 0.1);
     color: #fff;
     border-color: #ffffff;
 }
@@ -111,6 +111,9 @@ body, html {
     color: white;
     border-color: #ffffff;
 }
+
+/* Small logo inside each pill link */
+/* small pill logos removed — no inline logos next to pill text */
 
 /* Additional styles for main content */
 
@@ -185,16 +188,7 @@ body, html {
 .themeida-title { font-weight:700; font-size:1.4rem }
 .themeida-sub { font-size:0.9rem; opacity:0.9 }
 
-/* Visualizer canvas placed behind content but above background */
-.visualizer-canvas {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1; /* place behind main content */
-  pointer-events: none;
-}
+/* Visualizer removed — canvas styles stripped */
 
 /* Floating player UI (home page) */
 .player-ui {

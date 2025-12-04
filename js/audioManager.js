@@ -8,7 +8,6 @@ const AudioManager = (() => {
   let currentIndex = 0;
   let audioCtx = null;
   let mediaSource = null;
-  let analyserNode = null;
 
   const shuffleArray = arr => {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -82,7 +81,7 @@ const AudioManager = (() => {
     audio.loop = true;
     audio.volume = 0.2;
 
-    // create AudioContext and analyser so external visualizers can use it
+    // attempt to create an AudioContext for playback resume handling
     try {
       if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -90,13 +89,9 @@ const AudioManager = (() => {
       if (audio && audioCtx && !mediaSource) {
         try {
           mediaSource = audioCtx.createMediaElementSource(audio);
-          analyserNode = audioCtx.createAnalyser();
-          analyserNode.fftSize = 1024;
-          analyserNode.smoothingTimeConstant = 0.8;
-          // connect source to analyser (don't connect analyser to destination to avoid duplicate output)
-          mediaSource.connect(analyserNode);
+          // Note: analyser/visualizer support removed — keep mediaSource so context can resume
+          // but do not create or expose an analyser node.
         } catch (e) {
-          // creating MediaElementSource can fail in some contexts; swallow for now
           console.warn('AudioManager: media source setup failed', e);
         }
       }
@@ -166,8 +161,6 @@ const AudioManager = (() => {
   const toggleMute = () => { if (audio) audio.muted = !audio.muted; };
   const isMuted = () => { try { return !!(audio && audio.muted); } catch(e){ return false } };
   const getAudioElement = () => audio;
-  const getAnalyser = () => analyserNode;
-  const getAudioContext = () => audioCtx;
   const resumeContext = async () => { try { if (audioCtx && audioCtx.state === 'suspended') await audioCtx.resume(); } catch(e){} };
 
   return {
@@ -184,8 +177,6 @@ const AudioManager = (() => {
     , toggleMute
     , isMuted
     , getAudioElement
-    , getAnalyser
-    , getAudioContext
     , resumeContext
   };
 })();
