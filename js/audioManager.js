@@ -10,14 +10,34 @@ const AudioManager = (() => {
   let mediaSource = null;
   let filterNode = null;
   let gainNode = null;
-  let baseGain = 0.8;
+  let currentSource = null;
+  const trackListeners = [];
+  const MAX_GAIN = 0.5; // hard cap for overall loudness (50%)
+  let baseGain = MAX_GAIN;
   let proximityFactor = 1;
 
   const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
 
+  const trackMeta = (src) => {
+    if (!src || typeof src !== 'string') return { src: '', artistKey: '', title: '' };
+    const parts = src.split('/');
+    const file = parts[parts.length - 1] || '';
+    return {
+      src,
+      artistKey: parts.length >= 2 ? parts[parts.length - 2] : '',
+      title: file.replace('.mp3', '')
+    };
+  };
+
+  const notifyTrackChange = (src) => {
+    currentSource = src || currentSource;
+    const meta = trackMeta(currentSource);
+    trackListeners.forEach(fn => { try { fn(meta); } catch (e) {} });
+  };
+
   const updateGain = () => {
     if (gainNode) {
-      gainNode.gain.value = clamp(baseGain * proximityFactor, 0, 1.2);
+      gainNode.gain.value = clamp(baseGain * proximityFactor, 0, MAX_GAIN);
     }
   };
 
@@ -95,6 +115,7 @@ const AudioManager = (() => {
     }
 
     const source = songPaths[currentIndex];
+    currentSource = source;
     audio = new Audio(source);
     audio.loop = true;
     audio.volume = 1; // control loudness via gainNode/baseGain instead
@@ -124,6 +145,7 @@ const AudioManager = (() => {
     } catch (e) {}
 
     isInitialized = true;
+    notifyTrackChange(currentSource);
   };
 
   const play = () => {
@@ -139,7 +161,7 @@ const AudioManager = (() => {
   const unmute = (fadeMs = 0) => {
     if (!audio) return;
     const currentGain = gainNode ? gainNode.gain.value : baseGain * proximityFactor;
-    baseGain = 1.0;
+    baseGain = MAX_GAIN;
     proximityFactor = 1;
     setFilterFreq(18000);
     isMuffled = false;
@@ -147,8 +169,8 @@ const AudioManager = (() => {
       const now = audioCtx.currentTime;
       try {
         gainNode.gain.cancelScheduledValues(now);
-        gainNode.gain.setValueAtTime(clamp(currentGain, 0, 1.2), now);
-        gainNode.gain.linearRampToValueAtTime(clamp(baseGain, 0, 1.2), now + fadeMs / 1000);
+        gainNode.gain.setValueAtTime(clamp(currentGain, 0, MAX_GAIN), now);
+        gainNode.gain.linearRampToValueAtTime(clamp(baseGain, 0, MAX_GAIN), now + fadeMs / 1000);
       } catch (e) {
         rampTo(baseGain, fadeMs);
       }
@@ -163,18 +185,39 @@ const AudioManager = (() => {
     try {
       gainNode.gain.cancelScheduledValues(now);
       gainNode.gain.setValueAtTime(gainNode.gain.value, now);
-      gainNode.gain.linearRampToValueAtTime(clamp(target, 0, 1.2), now + durationMs / 1000);
+      gainNode.gain.linearRampToValueAtTime(clamp(target, 0, MAX_GAIN), now + durationMs / 1000);
     } catch (e) {
-      gainNode.gain.value = clamp(target, 0, 1.2);
+      gainNode.gain.value = clamp(target, 0, MAX_GAIN);
     }
   };
 
   const muffle = () => {
     if (!audio) return;
     baseGain = 0.3; // louder while muffled
-    setFilterFreq(1200); // keep some highs so it's audible
+    setFilterFreq(1200); // keep some highs
     updateGain();
     isMuffled = true;
+  };
+
+  const setSource = (src, autoplay = true, loop = true) => {
+    if (!src) return;
+    init();
+    if (!audio) {
+      audio = new Audio(src);
+      audio.loop = loop;
+      audio.volume = 1;
+      isInitialized = true;
+    } else {
+      const wasPlaying = !audio.paused;
+      audio.src = src;
+      audio.loop = loop;
+      audio.volume = 1;
+      if (autoplay || wasPlaying) {
+        audio.play().catch(() => {});
+      }
+    }
+    notifyTrackChange(src);
+    if (autoplay) play();
   };
 
   const unpause = () => {
@@ -185,6 +228,7 @@ const AudioManager = (() => {
     if (!Array.isArray(songPaths) || songPaths.length === 0) return;
     currentIndex = ((idx % songPaths.length) + songPaths.length) % songPaths.length;
     const src = songPaths[currentIndex];
+    currentSource = src;
     if (!audio) {
       audio = new Audio(src);
       audio.loop = true;
@@ -198,6 +242,7 @@ const AudioManager = (() => {
         audio.play().catch(() => {});
       }
     }
+    notifyTrackChange(src);
   };
 
   const next = () => {
@@ -223,6 +268,11 @@ const AudioManager = (() => {
     updateGain();
   };
 
+  const getTracksByArtist = (artistKey) => {
+    if (!artistKey || !Array.isArray(songPaths)) return [];
+    return songPaths.filter(p => p.startsWith(`music/${artistKey}/`));
+  };
+
   return {
     init,
     play,
@@ -240,6 +290,10 @@ const AudioManager = (() => {
     , resumeContext
     , rampTo
     , setProximityBoost
+    , setSource
+    , getTracksByArtist
+    , onTrackChange: (fn) => { if (typeof fn === 'function') trackListeners.push(fn); }
+    , getCurrentTrack: () => trackMeta(currentSource)
   };
 })();
 

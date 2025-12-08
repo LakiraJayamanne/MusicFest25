@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<!DOCTYPE html>
-<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MusicFest25 - Lineup</title>
   <link rel="stylesheet" href="css/style.css" />
   <script src="js/audioManager.js" defer></script>
+  <script src="js/theme.js" defer></script>
   <script src="js/lineup.js" defer></script>
 </head>
-<body>
+<body class="lineup-page">
   <header>
-    <div class="pill-nav" role="navigation" aria-label="Primary">
-        <div class="pill-nav__links">
+    <nav class="pill-nav" role="navigation" aria-label="Primary">
+      <div class="pill-nav__logo">
+        <img src="images/logo.png" alt="MusicFest25 Logo" />
+      </div>
+      <div class="pill-nav__links">
         <a class="pill-nav__link" href="index.html">Home</a>
         <a class="pill-nav__link active" href="lineup.html">Lineup</a>
         <a class="pill-nav__link" href="schedule.html">Schedule</a>
         <a class="pill-nav__link" href="tickets.html">Tickets</a>
-        </div>
-    </div>
+      </div>
+    </nav>
   </header>
 
   <div class="lineup-spotlight" aria-hidden="true"></div>
@@ -28,6 +30,7 @@
 
   <main>
     <h1>Artist Lineup</h1>
+    <p class="lineup-hint">Hover over the artist to preview music. Click on them to know further.</p>
     <section class="artist-grid">
 
       <!-- Day 1 -->
@@ -71,8 +74,35 @@
     </section>
   </main>
 
+  <!-- Artist bio overlay -->
+  <div id="artistOverlay" class="artist-overlay" aria-hidden="true">
+    <div class="artist-overlay__backdrop"></div>
+    <div class="artist-overlay__card" role="dialog" aria-modal="true" aria-label="Artist details">
+      <button class="artist-overlay__close" aria-label="Close artist details">×</button>
+      <div class="artist-overlay__header">
+        <div class="artist-overlay__avatar-wrap">
+          <img id="artistOverlayImg" alt="" />
+        </div>
+        <div>
+          <div id="artistOverlayName" class="artist-overlay__name"></div>
+          <div class="artist-overlay__player">
+            <div class="player-left">
+              <button id="artistPrev" class="ctrl" aria-label="Previous track">⏮</button>
+              <button id="artistPlay" class="ctrl" aria-label="Play/Pause">▶</button>
+              <button id="artistNext" class="ctrl" aria-label="Next track">⏭</button>
+            </div>
+            <div class="artist-overlay__track" id="artistTrackName"></div>
+          </div>
+        </div>
+      </div>
+      <div class="artist-overlay__body">
+        <p id="artistOverlayDesc"></p>
+      </div>
+    </div>
+  </div>
+
   <footer>
-    <p>© 2025 MusicFest25</p>
+    <p>MusicFest25</p>
   </footer>
 </body>
 </html>

@@ -6,46 +6,61 @@
   <title>MusicFest25 - Schedule</title>
   <link rel="stylesheet" href="css/style.css" />
   <script src="js/audioManager.js" defer></script>
+  <script src="js/theme.js" defer></script>
   <script src="js/script.js" defer></script>
+  <script src="js/player-ui.js" defer></script>
+  <script src="js/schedule.js" defer></script>
 </head>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MusicFest25 - Schedule</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <script src="js/audioManager.js" defer></script>
-  <script src="js/script.js" defer></script>
-</head>
-<body>
+<body class="schedule-page">
   <header>
-    <div class="pill-nav" role="navigation" aria-label="Primary">
-        <div class="pill-nav__links">
+    <nav class="pill-nav" role="navigation" aria-label="Primary">
+      <div class="pill-nav__logo">
+        <img src="images/logo.png" alt="MusicFest25 Logo" />
+      </div>
+      <div class="pill-nav__links">
         <a class="pill-nav__link" href="index.html">Home</a>
         <a class="pill-nav__link" href="lineup.html">Lineup</a>
         <a class="pill-nav__link active" href="schedule.html">Schedule</a>
         <a class="pill-nav__link" href="tickets.html">Tickets</a>
-        </div>
-    </div>
+      </div>
+    </nav>
   </header>
 
-  <script src="js/player-ui.js" defer></script>
+  <main class="schedule-content page-top-spacing">
+    <section class="schedule-hero">
+      <div class="schedule-hero__badge">Live timetable</div>
+      <h1>Performance Schedule</h1>
+      <p>Two nights. One stage. All set times locked in.</p>
+    </section>
 
-  <main>
-    <h1>Festival Schedule</h1>
-    <div class="day-buttons">
-      <button id="day1Btn">Day 1</button>
-      <button id="day2Btn">Day 2</button>
-    </div>
+    <section class="schedule-switcher">
+      <div class="pill-tabs" role="tablist">
+        <button class="pill-tab is-active" data-day="day1" role="tab" aria-selected="true">Day 1</button>
+        <button class="pill-tab" data-day="day2" role="tab" aria-selected="false">Day 2</button>
+      </div>
+    </section>
 
-    <section id="scheduleTable">
-      <!-- Add a table with time, artist, stage -->
+    <section class="schedule-graph">
+      <div class="timeline-header">
+        <span>4:00 PM</span>
+        <span>6:00 PM</span>
+        <span>8:00 PM</span>
+        <span>10:00 PM</span>
+      </div>
+      <div id="timelineTracks" class="timeline-tracks">
+        <!-- bars injected by schedule.js -->
+      </div>
+    </section>
+
+    <section class="schedule-list">
+      <div id="scheduleList" class="schedule-table">
+        <!-- list injected by schedule.js -->
+      </div>
     </section>
   </main>
 
-  <footer>
-    <p>© 2025 MusicFest25</p>
+  <footer class="site-footer">
+    <p>MusicFest25</p>
   </footer>
 </body>
 </html>

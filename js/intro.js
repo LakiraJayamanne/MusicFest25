@@ -8,11 +8,17 @@ window.addEventListener('DOMContentLoaded', () => {
   const miniPlay = document.getElementById('miniPlay');
   const miniNext = document.getElementById('miniNext');
   const miniMute = document.getElementById('miniMute');
-  const miniStatus = document.getElementById('miniStatus');
   let proximityEnabled = true;
 
-  // Always start fresh each load
-  try { localStorage.removeItem('mf25FirstName'); localStorage.removeItem('mf25LastName'); } catch(e){}
+  const loadStoredName = () => {
+    try {
+      const first = localStorage.getItem('mf25FirstName') || '';
+      const last = localStorage.getItem('mf25LastName') || '';
+      if (firstInput) firstInput.value = first;
+      if (lastInput) lastInput.value = last;
+    } catch (e) {}
+  };
+  loadStoredName();
 
   const startMuffled = async () => {
     try {
@@ -53,14 +59,12 @@ window.addEventListener('DOMContentLoaded', () => {
   const refreshMini = () => {
     try {
       if (!window.AudioManager) {
-        if (miniStatus) miniStatus.textContent = '';
         if (miniPlay) miniPlay.textContent = '▶';
         if (miniMute) miniMute.textContent = '🔊';
         return;
       }
       if (miniPlay) miniPlay.textContent = AudioManager.isPlaying() ? '⏸' : '▶';
       if (miniMute) miniMute.textContent = AudioManager.isMuted() ? '🔇' : '🔊';
-      if (miniStatus) miniStatus.textContent = AudioManager.isPlaying() ? (AudioManager.isMuted() ? 'Muted' : 'Playing') : 'Paused';
     } catch (e) {}
   };
 
@@ -89,6 +93,12 @@ window.addEventListener('DOMContentLoaded', () => {
     startBtn.addEventListener('click', async (e) => {
       e.stopPropagation();
       if (!namesValid()) return;
+      try {
+        const first = (firstInput?.value || '').trim();
+        const last = (lastInput?.value || '').trim();
+        localStorage.setItem('mf25FirstName', first);
+        localStorage.setItem('mf25LastName', last);
+      } catch (err) {}
       await enterSite(e); // triggers start + transition + unmute
     });
   }
@@ -96,10 +106,10 @@ window.addEventListener('DOMContentLoaded', () => {
   const enterSite = async (e) => {
     e.preventDefault();
 
-    // Ensure music is playing (muffled) before transition
+    // Make music muffled.
     await startMuffled();
 
-    // Run spotlight expansion transition before loading the main page
+    // Run spotlight expansion transition .
     await expandSpotlight(e);
 
     // Replace intro content with a persistent content iframe (shell) so audio keeps playing.
@@ -187,7 +197,7 @@ window.addEventListener('DOMContentLoaded', () => {
     proximityEnabled = false;
   };
 
-  // Proximity-based volume toward the proceed button
+  // Proximity volume
   const updateProximity = (e) => {
     try {
       if (!proximityEnabled || !startBtn || !window.AudioManager) return;
@@ -198,7 +208,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const dy = e.clientY - cy;
       const dist = Math.sqrt(dx * dx + dy * dy);
       const maxDist = 500;
-      const factor = Math.max(0.25, 1.8 - dist / maxDist); // closer => stronger lift
+      const factor = Math.max(0.1, 1.5 - dist / maxDist); // closer = stronger lift
       AudioManager.setProximityBoost?.(factor);
     } catch (err) {}
   };

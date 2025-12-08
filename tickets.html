@@ -6,111 +6,131 @@
   <title>MusicFest25 - Tickets</title>
   <link rel="stylesheet" href="css/style.css" />
   <script src="js/audioManager.js" defer></script>
+  <script src="js/theme.js" defer></script>
   <script src="js/script.js" defer></script>
+  <script src="js/player-ui.js" defer></script>
 </head>
 <body>
   <header>
-    <div class="pill-nav" role="navigation" aria-label="Primary">
-        <div class="pill-nav__links">
+    <nav class="pill-nav" role="navigation" aria-label="Primary">
+      <div class="pill-nav__logo">
+        <img src="images/logo.png" alt="MusicFest25 Logo" />
+      </div>
+      <div class="pill-nav__links">
         <a class="pill-nav__link" href="index.html">Home</a>
         <a class="pill-nav__link" href="lineup.html">Lineup</a>
         <a class="pill-nav__link" href="schedule.html">Schedule</a>
         <a class="pill-nav__link active" href="tickets.html">Tickets</a>
-        </div>
-    </div>
+      </div>
+    </nav>
   </header>
-  
-  
 
-  <script src="js/player-ui.js" defer></script>
+  <main class="tickets-page">
+    <section class="tickets-hero">
+      <div class="tickets-hero__badge">Limited release</div>
+      <h1>Book Your Tickets</h1>
+      <p>Lock in your spot for MusicFest25. Choose your pass, tell us your details, and we’ll handle the rest.</p>
+    </section>
 
-  <main>
-    <h1>Book Your Tickets</h1>
-    <form id="ticketForm">
-      <label for="name">Full Name:</label>
-      <input type="text" id="name" required />
+    <section class="tickets-layout">
+      <div class="ticket-card">
+        <form id="ticketForm" class="ticket-form">
+          <div class="field-row">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Alex Johnson" required />
+          </div>
 
-      <label for="email">Email Address:</label>
-      <input type="email" id="email" required />
+          <div class="field-grid">
+            <div class="field-row">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" required />
+            </div>
+            <div class="field-row">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" name="phone" placeholder="" required />
+            </div>
+          </div>
 
-      <label for="phone">Phone Number:</label>
-      <input type="tel" id="phone" required />
-
-      <label for="tickets">Number of Tickets:</label>
-      <input type="number" id="tickets" min="1" max="10" required />
-
-      <label for="type">Ticket Type:</label>
-      <select id="type">
-        <option>General Admission</option>
-        <option>VIP</option>
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>MusicFest25 - Tickets</title>
-          <link rel="stylesheet" href="css/style.css" />
-          <script src="js/audioManager.js" defer></script>
-          <script src="js/script.js" defer></script>
-        </head>
-        <body>
-          <header>
-            <nav>
-              <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="lineup.html">Lineup</a></li>
-                <li><a href="schedule.html">Schedule</a></li>
-                <li><a href="tickets.html">Tickets</a></li>
-              </ul>
-            </nav>
-          </header>
-
-          <script src="js/player-ui.js" defer></script>
-
-          <main>
-            <h1>Book Your Tickets</h1>
-            <form id="ticketForm">
-              <label for="name">Full Name:</label>
-              <input type="text" id="name" required />
-
-              <label for="email">Email Address:</label>
-              <input type="email" id="email" required />
-
-              <label for="phone">Phone Number:</label>
-              <input type="tel" id="phone" required />
-
-              <label for="tickets">Number of Tickets:</label>
-              <input type="number" id="tickets" min="1" max="10" required />
-
-              <label for="type">Ticket Type:</label>
-              <select id="type">
+          <div class="field-grid">
+          <div class="field-row">
+            <label for="tickets">Tickets</label>
+            <input type="number" id="tickets" name="tickets" min="1" max="10" value="1" required />
+          </div>
+            <div class="field-row">
+              <label for="type">Ticket Type</label>
+              <select id="type" name="type">
                 <option>General Admission</option>
                 <option>VIP</option>
-                <option>Premium</option>
+                <option>Platinum</option>
               </select>
+            </div>
+          </div>
 
-              <label for="payment">Payment Method:</label>
-              <select id="payment">
-                <option>Credit Card</option>
-                <option>Debit Card</option>
-                <option>PayPal</option>
-              </select>
+          <div class="field-row">
+            <label for="payment">Payment Method</label>
+            <select id="payment" name="payment">
+              <option>Credit Card</option>
+              <option>Debit Card</option>
+              <option>PayPal</option>
+            </select>
+          </div>
 
-              <label for="requirements">Special Requirements:</label>
-              <textarea id="requirements"></textarea>
+          <div class="field-row">
+            <label for="requirements">Special Requirements</label>
+            <textarea id="requirements" name="requirements" placeholder="Let us know about accessibility needs, seating, or anything else."></textarea>
+          </div>
 
-              <label>
-                <input type="checkbox" id="terms" required />
-                I agree to the terms and conditions
-              </label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="terms" name="terms" required />
+            <span>I agree to the terms and conditions</span>
+          </label>
 
-              <button type="submit">Submit</button>
-              <button type="reset">Reset</button>
-            </form>
-          </main>
+          <div class="actions">
+            <button type="submit" class="btn-primary">Submit</button>
+            <button type="reset" class="btn-ghost">Reset</button>
+          </div>
+        </form>
+      </div>
 
-          <footer>
-            <p>© 2025 MusicFest25</p>
-          </footer>
-        </body>
-        </html>
+      <aside class="ticket-summary">
+        <div class="summary-header">
+          <div>
+            <p class="eyebrow">Your Selection</p>
+            <h3>MusicFest25 Pass</h3>
+          </div>
+          <span class="pill">2 days</span>
+        </div>
+        <ul class="summary-list">
+          <li>
+            <span>Ticket Type</span>
+            <strong id="summaryType">General Admission</strong>
+          </li>
+          <li>
+            <span>Tickets</span>
+            <strong id="summaryCount">1</strong>
+          </li>
+          <li>
+            <span>Per Ticket</span>
+            <strong id="summaryPer">£XX</strong>
+          </li>
+          <li>
+            <span>Fees & Taxes</span>
+            <strong id="summaryFees">£XX</strong>
+          </li>
+        </ul>
+        <div class="summary-total">
+          <span>Total</span>
+          <strong id="summaryTotal">£XXX</strong>
+        </div>
+        <div class="summary-note">
+          Prices shown in GBP. Final total updates as you change ticket count or type.
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>MusicFest25</p>
+  </footer>
+</body>
+</html>
