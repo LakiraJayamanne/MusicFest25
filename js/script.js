@@ -25,6 +25,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const summaryPer = document.getElementById('summaryPer');
       const summaryFees = document.getElementById('summaryFees');
       const summaryTotal = document.getElementById('summaryTotal');
+      const phoneInput = document.getElementById('phone');
 
       const priceMap = {
         'General Admission': 180,
@@ -49,6 +50,12 @@ window.addEventListener('DOMContentLoaded', () => {
         if (summaryFees) summaryFees.textContent = `£${fees}`;
         if (summaryTotal) summaryTotal.textContent = `£${total}`;
       };
+
+      if (phoneInput) {
+        phoneInput.addEventListener('input', () => {
+          phoneInput.value = phoneInput.value.replace(/\D+/g, '');
+        });
+      }
 
       ticketInput?.addEventListener('input', updateSummary);
       typeSelect?.addEventListener('change', updateSummary);
