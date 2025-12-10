@@ -64,3 +64,4 @@ window.addEventListener('DOMContentLoaded', () => {
   refresh();
   setInterval(refresh, 600);
 });
+
