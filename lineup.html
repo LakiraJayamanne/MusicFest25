@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MusicFest25 - Lineup</title>
+  <title>LanternFest - Lineup</title>
   <link rel="stylesheet" href="css/style.css" />
   <script src="js/audioManager.js" defer></script>
   <script src="js/theme.js" defer></script>
@@ -13,7 +13,7 @@
   <header>
     <nav class="pill-nav" role="navigation" aria-label="Primary">
       <div class="pill-nav__logo">
-        <img src="images/logo.png" alt="MusicFest25 Logo" />
+        <img src="images/logo.png" alt="LanternFest Logo" />
       </div>
       <div class="pill-nav__links">
         <a class="pill-nav__link" href="index.html">Home</a>
@@ -28,7 +28,7 @@
   
   <script src="js/player-ui.js" defer></script>
 
-  <main>
+  <main class="page-top-spacing">
     <h1>Artist Lineup</h1>
     <p class="lineup-hint">Hover over the artist to preview music. Click on them to know further.</p>
     <section class="artist-grid">
@@ -78,7 +78,7 @@
   <div id="artistOverlay" class="artist-overlay" aria-hidden="true">
     <div class="artist-overlay__backdrop"></div>
     <div class="artist-overlay__card" role="dialog" aria-modal="true" aria-label="Artist details">
-      <button class="artist-overlay__close" aria-label="Close artist details">×</button>
+      <button class="artist-overlay__close" aria-label="Close artist details">Ã—</button>
       <div class="artist-overlay__header">
         <div class="artist-overlay__avatar-wrap">
           <img id="artistOverlayImg" alt="" />
@@ -87,9 +87,9 @@
           <div id="artistOverlayName" class="artist-overlay__name"></div>
           <div class="artist-overlay__player">
             <div class="player-left">
-              <button id="artistPrev" class="ctrl" aria-label="Previous track">⏮</button>
-              <button id="artistPlay" class="ctrl" aria-label="Play/Pause">▶</button>
-              <button id="artistNext" class="ctrl" aria-label="Next track">⏭</button>
+              <button id="artistPrev" class="ctrl" aria-label="Previous track">â®</button>
+              <button id="artistPlay" class="ctrl" aria-label="Play/Pause">â–¶</button>
+              <button id="artistNext" class="ctrl" aria-label="Next track">â­</button>
             </div>
             <div class="artist-overlay__track" id="artistTrackName"></div>
           </div>
@@ -101,8 +101,12 @@
     </div>
   </div>
 
-  <footer>
-    <p>MusicFest25</p>
+  <div class="hero-next" style="text-align:center; margin: 1.5rem 0;">
+    <a href="schedule.html" class="next-link">Next: Schedule →</a>
+  </div>
+
+  <footer class="site-footer">
+    <p>LanternFest</p>
   </footer>
 </body>
 </html>

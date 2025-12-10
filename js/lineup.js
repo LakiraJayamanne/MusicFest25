@@ -1,7 +1,6 @@
 // Artist lineup interactions: overlay + hover preview using shared AudioManager
 
 const overlayEl = document.getElementById('artistOverlay');
-const overlayCard = overlayEl?.querySelector('.artist-overlay__card');
 const overlayClose = overlayEl?.querySelector('.artist-overlay__close');
 const overlayImg = document.getElementById('artistOverlayImg');
 const overlayName = document.getElementById('artistOverlayName');
@@ -21,6 +20,7 @@ let overlayActive = false;
 let overlayPlaylist = [];
 let overlayIndex = 0;
 const FADE_MS = 400;
+let hoverPauseTimeout = null;
 
 // Artist metadata
 const artistMeta = {
@@ -122,6 +122,13 @@ const trackLabel = (path) => {
   return (parts[parts.length - 1] || '').replace('.mp3', '');
 };
 
+const clearHoverPause = () => {
+  if (hoverPauseTimeout) {
+    clearTimeout(hoverPauseTimeout);
+    hoverPauseTimeout = null;
+  }
+};
+
 const refreshOverlayControls = () => {
   if (!btnPlay) return;
   const audio = getAudio();
@@ -160,6 +167,7 @@ const loadOverlayTrack = (idx, autoplay = true, muffled = false) => {
 };
 
 const openOverlay = (artistKey) => {
+  clearHoverPause();
   const meta = artistMeta[artistKey] || { name: artistKey, desc: '', img: '' };
   overlayPlaylist = getTracksForArtist(artistKey);
   overlayIndex = 0;
@@ -215,6 +223,7 @@ document.querySelectorAll('.artist-card').forEach(card => {
   const tracks = getTracksForArtist(artist);
 
   card.addEventListener('mouseenter', () => {
+    clearHoverPause();
     overlayPlaylist = tracks;
     overlayIndex = 0;
     loadOverlayTrack(0, true, true); // muffled preview on hover
@@ -225,7 +234,8 @@ document.querySelectorAll('.artist-card').forEach(card => {
       try {
         const audio = getAudio();
         audio?.rampTo?.(0, FADE_MS);
-        setTimeout(() => { try { audio?.pause?.(); } catch(e){} }, FADE_MS);
+        clearHoverPause();
+        hoverPauseTimeout = setTimeout(() => { try { audio?.pause?.(); } catch(e){} }, FADE_MS);
       } catch (e) {}
     }
     card.style.transform = `rotateY(0deg) rotateX(0deg)`;

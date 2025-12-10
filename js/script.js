@@ -5,10 +5,18 @@ window.addEventListener('DOMContentLoaded', () => {
   // Prefill ticket name from stored intro values and wire summary updates
   try {
     const path = (window.location.pathname || '').toLowerCase();
+    const first = localStorage.getItem('mf25FirstName') || '';
+    const last = localStorage.getItem('mf25LastName') || '';
+    const full = `${first} ${last}`.trim();
+
+    if (path.endsWith('/index.html') || path.endsWith('/') || path === '') {
+      const greet = document.getElementById('heroGreet');
+      if (greet && first) {
+        greet.textContent = `Welcome to LanternFest, ${first}!`;
+      }
+    }
+
     if (path.endsWith('/tickets.html') || path.endsWith('tickets.html')) {
-      const first = localStorage.getItem('mf25FirstName') || '';
-      const last = localStorage.getItem('mf25LastName') || '';
-      const full = `${first} ${last}`.trim();
       const nameInput = document.getElementById('name');
       const ticketInput = document.getElementById('tickets');
       const typeSelect = document.getElementById('type');

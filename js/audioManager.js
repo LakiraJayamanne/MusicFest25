@@ -12,7 +12,7 @@ const AudioManager = (() => {
   let gainNode = null;
   let currentSource = null;
   const trackListeners = [];
-  const MAX_GAIN = 0.5; // hard cap for overall loudness (50%)
+  const MAX_GAIN = 0.5; // hard cap for overall volume (50%)
   let baseGain = MAX_GAIN;
   let proximityFactor = 1;
 
@@ -109,7 +109,7 @@ const AudioManager = (() => {
   const init = () => {
     if (isInitialized) return;
 
-    // Ensure currentIndex is within bounds
+
     if (typeof currentIndex !== 'number' || currentIndex < 0 || currentIndex >= songPaths.length) {
       currentIndex = 0;
     }
@@ -118,7 +118,7 @@ const AudioManager = (() => {
     currentSource = source;
     audio = new Audio(source);
     audio.loop = true;
-    audio.volume = 1; // control loudness via gainNode/baseGain instead
+    audio.volume = 1; // control volume via gainNode/baseGain instead
 
     // attempt to create an AudioContext for playback resume handling
     try {
@@ -136,8 +136,7 @@ const AudioManager = (() => {
           mediaSource.connect(filterNode);
           filterNode.connect(gainNode);
           gainNode.connect(audioCtx.destination); // ensure audio is routed to output
-          // Note: analyser/visualizer support removed — keep mediaSource so context can resume
-          // but do not create or expose an analyser node.
+          
         } catch (e) {
           console.warn('AudioManager: media source setup failed', e);
         }
@@ -220,10 +219,6 @@ const AudioManager = (() => {
     if (autoplay) play();
   };
 
-  const unpause = () => {
-    if (audio && audio.paused) audio.play();
-  };
-
   const _setTrack = idx => {
     if (!Array.isArray(songPaths) || songPaths.length === 0) return;
     currentIndex = ((idx % songPaths.length) + songPaths.length) % songPaths.length;
@@ -253,10 +248,6 @@ const AudioManager = (() => {
     _setTrack(currentIndex - 1);
   };
 
-  const getCurrentTitle = () => {
-    try { return songPaths[currentIndex].split('/').pop(); } catch(e) { return '' }
-  };
-
   const pause = () => { if (audio) try { audio.pause(); } catch(e) {} };
   const isPlaying = () => { try { return !!(audio && !audio.paused); } catch(e){ return false } };
   const toggleMute = () => { if (audio) audio.muted = !audio.muted; };
@@ -278,10 +269,8 @@ const AudioManager = (() => {
     play,
     unmute,
     muffle,
-    unpause
-    , next
+    next
     , prev
-    , getCurrentTitle
     , pause
     , isPlaying
     , toggleMute

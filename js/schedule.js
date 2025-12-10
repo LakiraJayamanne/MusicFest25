@@ -16,6 +16,7 @@
 
   const dayTabs = document.querySelectorAll('.pill-tab');
   const timelineTracks = document.getElementById('timelineTracks');
+  const timelineHeader = document.getElementById('timelineHeader');
   const listContainer = document.getElementById('scheduleList');
 
   const parseTime = (hhmm) => {
@@ -38,9 +39,51 @@
   const DAY_END = parseTime('22:45');
   const DAY_SPAN = DAY_END - DAY_START;
 
+  const buildTicks = () => {
+    if (!timelineHeader) return [];
+    timelineHeader.innerHTML = '';
+    const ticks = [];
+    for (let t = DAY_START; t <= DAY_END; t += 60) {
+      ticks.push(t);
+    }
+    if (ticks[ticks.length - 1] !== DAY_END) {
+      ticks.push(DAY_END);
+    }
+    ticks.forEach((t) => {
+      const tick = document.createElement('div');
+      tick.className = 'tick';
+      tick.style.left = `${((t - DAY_START) / DAY_SPAN) * 100}%`;
+      tick.textContent = formatRange(t, t).split(' - ')[0];
+      timelineHeader.appendChild(tick);
+    });
+    return ticks;
+  };
+
   const renderTimeline = (entries) => {
     if (!timelineTracks) return;
     timelineTracks.innerHTML = '';
+    const ticks = buildTicks();
+
+    // grid lines
+    const gridWrap = document.createElement('div');
+    gridWrap.className = 'timeline-grid-lines';
+    ticks.forEach((t) => {
+      const line = document.createElement('div');
+      line.className = 'timeline-grid-line';
+      line.style.left = `${((t - DAY_START) / DAY_SPAN) * 100}%`;
+      gridWrap.appendChild(line);
+    });
+    timelineTracks.appendChild(gridWrap);
+
+    // y-axis labels
+    const yLabelWrap = document.createElement('div');
+    yLabelWrap.className = 'timeline-y-labels';
+    const stageLabel = document.createElement('div');
+    stageLabel.textContent = 'Main Stage';
+    stageLabel.style.top = '8px';
+    yLabelWrap.appendChild(stageLabel);
+    timelineTracks.appendChild(yLabelWrap);
+
     entries.forEach((slot, idx) => {
       const start = parseTime(slot.start);
       const end = parseTime(slot.end);

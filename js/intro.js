@@ -1,5 +1,4 @@
 window.addEventListener('DOMContentLoaded', () => {
-  const starter = document.getElementById('themeidaPlayer');
   const spotlight = document.querySelector('.spotlight-overlay');
   const firstInput = document.getElementById('firstNameInput');
   const lastInput = document.getElementById('lastNameInput');
@@ -8,6 +7,8 @@ window.addEventListener('DOMContentLoaded', () => {
   const miniPlay = document.getElementById('miniPlay');
   const miniNext = document.getElementById('miniNext');
   const miniMute = document.getElementById('miniMute');
+  const INTRO_FADE_MS = 4200;
+  let introFadeStarted = false;
   let proximityEnabled = true;
 
   const loadStoredName = () => {
@@ -30,6 +31,22 @@ window.addEventListener('DOMContentLoaded', () => {
     } catch (e) {
       console.warn('Intro audio start failed', e);
     }
+  };
+
+  const fadeInToFullVolume = () => {
+    try {
+      if (!window.AudioManager) return;
+      AudioManager.init();
+      AudioManager.rampTo?.(0.01, 120); // dip to near-silence before rising
+      AudioManager.unmute?.(INTRO_FADE_MS);
+    } catch (e) {}
+  };
+
+  const prepareIntroFade = () => {
+    try {
+      if (!window.AudioManager) return;
+      AudioManager.rampTo?.(0.02, 180);
+    } catch (e) {}
   };
 
   const expandSpotlight = (e) => {
@@ -108,6 +125,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Make music muffled.
     await startMuffled();
+    prepareIntroFade();
 
     // Run spotlight expansion transition .
     await expandSpotlight(e);
@@ -189,7 +207,11 @@ window.addEventListener('DOMContentLoaded', () => {
     } catch(e) { console.warn('Player injection failed', e); }
 
     // After the content is loaded/visible, clear the muffling so the main site plays normally.
-    const unmuteNow = () => { try { if (window.AudioManager) { AudioManager.unmute(4000); } } catch (e) {} };
+    const unmuteNow = () => {
+      if (introFadeStarted) return;
+      introFadeStarted = true;
+      fadeInToFullVolume();
+    };
     content.addEventListener('load', unmuteNow);
     setTimeout(unmuteNow, 600);
 

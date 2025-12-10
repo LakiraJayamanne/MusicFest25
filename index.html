@@ -1,43 +1,68 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MusicFest25 - Home</title>
+  <title>LanternFest - Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
   <script src="js/audioManager.js" defer></script>
   <script src="js/theme.js" defer></script>
   <script src="js/script.js" defer></script>
+  <script src="js/player-ui.js" defer></script>
 </head>
 <body>
   <header>
-    <nav class = "pill-nav">
-        <div class = "pill-nav__logo">
-            <img src = "images/logo.png" alt = "MusicFest25 Logo" />
-        </div>
-        <div class = "pill-nav__links">
-            <a class = "pill-nav__link active" href="index.html">Home</a>
-            <a class = "pill-nav__link" href="lineup.html">Lineup</a>
-            <a class = "pill-nav__link" href="schedule.html">Schedule</a>
-            <a class = "pill-nav__link" href="tickets.html">Tickets</a>
-        </div>
+    <nav class="pill-nav">
+      <div class="pill-nav__logo">
+        <img src="images/logo.png" alt="LanternFest Logo" />
+      </div>
+      <div class="pill-nav__links">
+        <a class="pill-nav__link active" href="index.html">Home</a>
+        <a class="pill-nav__link" href="lineup.html">Lineup</a>
+        <a class="pill-nav__link" href="schedule.html">Schedule</a>
+        <a class="pill-nav__link" href="tickets.html">Tickets</a>
+      </div>
     </nav>
   </header>
 
-  <script src="js/player-ui.js" defer></script>
-
-  <main>
+  <main class="page-top-spacing home-hero">
     <section class="overview">
-      <h1>Welcome to MusicFest25</h1>
-      <p>xx/xx/2025</p>
-      <p>2 day fest</p>
-      <a href="tickets.html" class="cta-button">Book Tickets</a>
+      <div class="hero-kicker">LanternFest 2025</div>
+      <h1 class="hero-greet" id="heroGreet">Welcome to LanternFest</h1>
+      <h2 class="hero-title">Charge up at THE festival for lanterns this weekend.</h2>
+      <p class="hero-sub">"In brightest day, in blackest night, no evil shall escape my sight. Let those who worship evil's might, beware my power, Green Lantern's light"</p>
+      <div class="hero-next">
+        <a href="lineup.html" class="next-link">Next up: Lineup</a>
+      </div>
     </section>
 
+    <section class="home-grid">
+      <a class="home-card" href="lineup.html">
+        <div class="card-pill">Lineup</div>
+        <h3>Meet the roster</h3>
+        <p>Hover and pick your favorites before you hit the grounds.</p>
+        <span class="card-arrow">Explore →</span>
+      </a>
+      <a class="home-card" href="schedule.html">
+        <div class="card-pill">Schedule</div>
+        <h3>Lock your times</h3>
+        <p>View set times so you never miss a moment under the lights.</p>
+        <span class="card-arrow">View times →</span>
+      </a>
+      <a class="home-card highlight" href="tickets.html">
+        <div class="card-pill">Tickets</div>
+        <h3>Fast track to checkout</h3>
+        <p>Jump straight to passes with a single click. Lanterns up.</p>
+        <span class="card-arrow">Go to tickets →</span>
+      </a>
+    </section>
   </main>
 
-  <footer>
-    <p>MusicFest25</p>
+  <footer class="site-footer">
+    <p>LanternFest</p>
   </footer>
 </body>
 </html>
