@@ -12,6 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
   let introFadeStarted = false;
   let proximityEnabled = true;
 
+  // Pull stored names into the inputs
   const loadStoredName = () => {
     try {
       const first = localStorage.getItem('mf25FirstName') || '';
@@ -22,6 +23,7 @@ window.addEventListener('DOMContentLoaded', () => {
   };
   loadStoredName();
 
+  // Kick off audio in muffled state
   const startMuffled = async () => {
     try {
       if (!window.AudioManager) return;
@@ -34,6 +36,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  // Ramp from quiet to normal after intro
   const fadeInToFullVolume = () => {
     try {
       if (!window.AudioManager) return;
@@ -43,6 +46,7 @@ window.addEventListener('DOMContentLoaded', () => {
     } catch (e) {}
   };
 
+  // Slightly lower gain before the big fade-in
   const prepareIntroFade = () => {
     try {
       if (!window.AudioManager) return;
@@ -50,6 +54,7 @@ window.addEventListener('DOMContentLoaded', () => {
     } catch (e) {}
   };
 
+  // Grow the spotlight mask on click/tap
   const expandSpotlight = (e) => {
     return new Promise((resolve) => {
       try {
@@ -66,6 +71,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  // Basic required validation
   const namesValid = () => {
     const first = (firstInput?.value || '').trim();
     const last = (lastInput?.value || '').trim();
@@ -74,6 +80,7 @@ window.addEventListener('DOMContentLoaded', () => {
     return true;
   };
 
+  // Sync mini player labels
   const refreshMini = () => {
     try {
       if (!window.AudioManager) {
@@ -86,6 +93,7 @@ window.addEventListener('DOMContentLoaded', () => {
     } catch (e) {}
   };
 
+  // Wire up intro mini controls
   const wireMiniControls = () => {
     if (miniPrev) miniPrev.addEventListener('click', () => { try { AudioManager.init(); AudioManager.prev(); refreshMini(); } catch(e){} });
     if (miniNext) miniNext.addEventListener('click', () => { try { AudioManager.init(); AudioManager.next(); refreshMini(); } catch(e){} });
@@ -121,6 +129,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Main intro flow to load the app shell
   const enterSite = async (e) => {
     e.preventDefault();
 

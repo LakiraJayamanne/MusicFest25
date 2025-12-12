@@ -38,6 +38,7 @@ window.addEventListener('DOMContentLoaded', () => {
         nameInput.value = full;
       }
 
+      // Update the ticket summary UI
       const updateSummary = () => {
         const type = typeSelect?.value || 'General Admission';
         const count = Math.max(1, parseInt(ticketInput?.value || '1', 10));

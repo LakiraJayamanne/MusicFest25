@@ -1,5 +1,3 @@
-// spotlight.js
-// Keeps CSS variables `--mouse-x` and `--mouse-y` updated so the spotlight
 // overlay follows the user's pointer or touch.
 (function(){
   function update(e){

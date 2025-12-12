@@ -1,4 +1,5 @@
 ﻿(function() {
+  // Static schedule data for each day
   const data = {
     day1: [
       { artist: 'Travis Scott', start: '16:00', end: '17:30' },
@@ -19,11 +20,13 @@
   const timelineHeader = document.getElementById('timelineHeader');
   const listContainer = document.getElementById('scheduleList');
 
+  // Convert HH:MM to minutes
   const parseTime = (hhmm) => {
     const [h, m] = hhmm.split(':').map(Number);
     return h * 60 + m;
   };
 
+  // Pretty-print a time range
   const formatRange = (s, e) => {
     const fmt = (t) => {
       const hour = Math.floor(t / 60);
@@ -59,6 +62,7 @@
     return ticks;
   };
 
+  // Render the top timeline bars
   const renderTimeline = (entries) => {
     if (!timelineTracks) return;
     timelineTracks.innerHTML = '';
@@ -103,6 +107,7 @@
     timelineTracks.style.height = `${entries.length * 68}px`;
   };
 
+  // Render the text list below
   const renderList = (entries) => {
     if (!listContainer) return;
     listContainer.innerHTML = '';
@@ -119,6 +124,7 @@
     });
   };
 
+  // Swap data for selected day
   const setDay = (dayKey) => {
     const entries = data[dayKey] || [];
     dayTabs.forEach(btn => {
@@ -130,6 +136,7 @@
     renderList(entries);
   };
 
+  // Tab interactions
   dayTabs.forEach(btn => {
     btn.addEventListener('click', () => setDay(btn.dataset.day));
   });

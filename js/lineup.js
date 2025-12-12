@@ -24,6 +24,7 @@ const FADE_MS = 400;
 let hoverPauseTimeout = null;
 
 // Artist metadata
+// Basic artist bios and artwork
 const artistMeta = {
   Travis: { name: 'Travis Scott', desc: 'Jacques Bermon Webster II (born April 30, 1991), known professionally as Travis Scott, is an American rapper, singer, songwriter, and record producer. Known for his atmospheric blend of hip-hop and lo-fi influences, he has earned multiple number-one hits and industry awards.', img: 'images/Travis.jpeg' },
 
@@ -43,6 +44,7 @@ const artistMeta = {
 };
 
 // Ordered per-artist tracks for overlay/hover
+// Per-artist track pools
 const artistTracks = {
   Travis: [
     'music/Travis/Beep beep.mp3',
@@ -219,6 +221,7 @@ overlayEl?.addEventListener('click', (e) => {
 });
 
 // Artist card hover + tilt + click to open overlay
+// Wire hover/click behavior for each card
 document.querySelectorAll('.artist-card').forEach(card => {
   const artist = card.dataset.artist;
   const tracks = getTracksForArtist(artist);

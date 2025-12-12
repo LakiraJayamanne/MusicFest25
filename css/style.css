@@ -1,4 +1,5 @@
-﻿:root {
+/* Theme tokens */
+:root {
   --theme-bg-image: none; /* set to url(...) */
   --theme-bg-color: #05030b;
   --theme-bg-opacity: 0.4;
@@ -13,6 +14,7 @@
   --theme-muted: rgba(255,255,255,0.78);
 }
 
+/* Global layout */
 body, html {
   margin: 0;
   padding: 0;
@@ -162,8 +164,8 @@ body.lineup-page h1 {
   border-bottom: 1px solid rgba(255,255,255,0.12);
   padding-bottom: 4px;
 }
-/* Tickets page */
 .tickets-page {
+/* Tickets page */
   max-width: 1180px;
   margin: 0 auto;
   padding: 1.5rem 1.25rem 3rem;
@@ -325,8 +327,8 @@ body.lineup-page h1 {
   }
 }
 
-/* Schedule page */
 .schedule-content {
+/* Schedule page */
   max-width: 1180px;
   margin: 0 auto;
   padding: 2.5rem 1.25rem 3rem;
@@ -493,6 +495,7 @@ body.lineup-page h1 {
   }
 }
 
+/* Floating player (persisted in intro shell) */
 #persistentPlayer {
   position: fixed;
   top: 88px;
@@ -521,6 +524,7 @@ body.lineup-page h1 {
 
 
 
+/* Spotlight mask used on intro */
 .spotlight-overlay {
   position: fixed;
   inset: 0;
@@ -579,6 +583,7 @@ body.lineup-page h1 {
 
 
 
+/* Pill navigation */
 .pill-nav {
     display: flex;
     justify-content: center;
@@ -636,7 +641,7 @@ body.lineup-page h1 {
 }
 
 /* Small logo inside each pill link */
-/* small pill logos removed â€” no inline logos next to pill text */
+/* small pill logos removed — no inline logos next to pill text */
 
 /* Additional styles for main content */
 
@@ -821,7 +826,7 @@ body.lineup-page h1 {
   }
 }
 
-/* Visualizer removed â€” canvas styles stripped */
+/* Visualizer removed — canvas styles stripped */
 
 /* Floating player UI (home page) */
 .player-ui {
@@ -844,6 +849,7 @@ body.lineup-page h1 {
 .player-ui .ctrl { background:transparent; border:1px solid rgba(255,255,255,0.12); color:#fff; padding:6px 8px; border-radius:6px; cursor:pointer }
 .player-ui #playerTrack { max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
 
+/* Lineup grid */
 .artist-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -938,6 +944,7 @@ body.lineup-page h1 {
   }
 }
 
+/* Artist overlay */
 /* Artist overlay */
 .artist-overlay {
   position: fixed;
@@ -1054,6 +1061,7 @@ body.lineup-page h1 {
     justify-content: center;
   }
 }
+/* Home quick links */
 .home-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));

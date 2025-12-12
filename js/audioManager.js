@@ -109,6 +109,8 @@ const AudioManager = (() => {
   const init = () => {
     if (isInitialized) return;
 
+    // Build the audio element and supporting nodes on first run
+
 
     if (typeof currentIndex !== 'number' || currentIndex < 0 || currentIndex >= songPaths.length) {
       currentIndex = 0;
@@ -200,6 +202,7 @@ const AudioManager = (() => {
 
   const setSource = (src, autoplay = true, loop = true) => {
     if (!src) return;
+    // Swap the audio source and optionally auto-play
     init();
     if (!audio) {
       audio = new Audio(src);
@@ -221,6 +224,7 @@ const AudioManager = (() => {
 
   const _setTrack = idx => {
     if (!Array.isArray(songPaths) || songPaths.length === 0) return;
+    // Rotate through shuffled base playlist
     currentIndex = ((idx % songPaths.length) + songPaths.length) % songPaths.length;
     const src = songPaths[currentIndex];
     currentSource = src;

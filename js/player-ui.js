@@ -1,4 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
+  // Only the top window gets a floating player
   if (window !== window.top) return;
 
   // If this is the intro page, do not render a visible player here.
@@ -14,11 +15,11 @@ window.addEventListener('DOMContentLoaded', () => {
   const playerWrap = document.createElement('div');
   playerWrap.className = 'player-ui';
   playerWrap.setAttribute('aria-hidden', 'false');
-  playerWrap.innerHTML = `
-    <button id="playerPrev" class="ctrl">⏮</button>
-    <button id="playerPlay" class="ctrl">▶</button>
-    <button id="playerNext" class="ctrl">⏭</button>
-    <button id="playerMute" class="ctrl">🔊</button>
+    playerWrap.innerHTML = `
+    <button id="playerPrev" class="ctrl">?</button>
+    <button id="playerPlay" class="ctrl">?</button>
+    <button id="playerNext" class="ctrl">?</button>
+    <button id="playerMute" class="ctrl">??</button>
     <span id="playerTrack" style="margin-left:8px; font-weight:600; display:none;"></span>
   `;
   document.body.appendChild(playerWrap);
@@ -29,16 +30,17 @@ window.addEventListener('DOMContentLoaded', () => {
   const mute = document.getElementById('playerMute');
   const track = document.getElementById('playerTrack');
 
+    // Keep labels in sync with AudioManager
   function refresh() {
     try {
       if (!window.AudioManager) {
-        if (play) play.textContent = '▶';
-        if (mute) mute.textContent = '🔊';
+        if (play) play.textContent = '?';
+        if (mute) mute.textContent = '??';
         if (track) track.textContent = '';
         return;
       }
-      if (play) play.textContent = AudioManager.isPlaying() ? '⏸' : '▶';
-      if (mute) mute.textContent = AudioManager.isMuted() ? '🔇' : '🔊';
+      if (play) play.textContent = AudioManager.isPlaying() ? '?' : '?';
+      if (mute) mute.textContent = AudioManager.isMuted() ? '??' : '??';
       try { if (track) track.textContent = ''; } catch(e) { if (track) track.textContent = ''; }
     } catch (e) {}
   }
@@ -63,3 +65,5 @@ window.addEventListener('DOMContentLoaded', () => {
   refresh();
   setInterval(refresh, 600);
 });
+
+
